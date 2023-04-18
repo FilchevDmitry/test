@@ -16,8 +16,64 @@ private:
 	int num_nodes;
 
 public:
-
+	Vertex** head;
+	ListGraph(Edge _edges[], int knot, int rib)
+	{
+		head = new Vertex * [knot]();
+		this->num_nodes = knot;
+		for (int i = 0; i < num_nodes; i++)
+		{
+			head[i] = nullptr;
+		}
+		for (unsigned i = 0; i < rib; i++)
+		{
+			int start = _edges[i].start;
+			int end = _edges[i].end;
+			Vertex* newNode = new Vertex;
+			newNode->number = end;
+			head[start] = newNode;
+		}
+	};
 };
+void printList(Vertex* ptr)
+{
+	while (ptr != nullptr)
+	{
+		cout << " -> " << ptr->number;
+		ptr = ptr->next;
+	}
+	cout << endl;
+}
+int main()
+{
+    // массив ребер Graph согласно схеме выше
+    Edge edges[] =
+    {
+        // пара {x, y} представляет ребро от `x` до `y`
+        {0, 1}, {1, 2}, {2, 0}, {2, 1}, {3, 2}, {4, 5}, {5, 4}
+    };
+
+    // общее количество узлов в Graph (от 0 до 5)
+    int N = 6;
+
+    // вычисляем общее количество ребер
+    int n = sizeof(edges) / sizeof(edges[0]);
+
+    // построить Graph
+    ListGraph graph(edges, n, N);
+
+    // вывести представление списка смежности Graph
+    for (int i = 0; i < N; i++)
+    {
+        // печатаем заданную вершину
+        cout << i;
+
+        // печатаем все его соседние вершины
+        printList(graph.head[i]);
+    }
+
+    return 0;
+}
 // Структура данных для хранения узлов списка смежности
 //struct Vertex
 //{
